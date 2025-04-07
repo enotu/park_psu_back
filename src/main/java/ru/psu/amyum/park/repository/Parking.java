@@ -1,14 +1,23 @@
 package ru.psu.amyum.park.repository;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "parkings")
 public class Parking {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String location;
-    private String status;
+    private Integer parking_average;
+    private Integer parking_free;
 
-    public Parking(Integer id, String location, String status) {
+    public Parking(Integer id, String location, Integer parking_average, Integer parking_free) {
         this.id = id;
         this.location = location;
-        this.status = status;
+        this.parking_average = parking_average;
+        this.parking_free = parking_free;
     }
 
     public Parking() {
@@ -31,11 +40,19 @@ public class Parking {
         this.location = location;
     }
 
-    public String getStatus() {
-        return status;
+    public Integer getParking_average() {
+        return parking_average;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setParking_average(Integer parking_average) {
+        this.parking_average = parking_average;
+    }
+
+    public Integer getParking_free() {
+        return parking_free;
+    }
+
+    public void setParking_free(Integer parking_free) {
+        this.parking_free = parking_free;
     }
 }

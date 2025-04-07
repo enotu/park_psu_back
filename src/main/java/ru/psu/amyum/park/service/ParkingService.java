@@ -1,0 +1,21 @@
+package ru.psu.amyum.park.service;
+
+import org.springframework.stereotype.Service;
+import ru.psu.amyum.park.repository.Parking;
+import ru.psu.amyum.park.repository.ParkingRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ParkingService {
+
+    private final ParkingRepository parkingRepository;
+
+    public ParkingService(ParkingRepository parkingRepository) {
+        this.parkingRepository = parkingRepository;
+    }
+    public List<Parking> findAll() {
+        return parkingRepository.findAll();
+    }
+}

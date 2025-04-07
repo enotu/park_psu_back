@@ -7,14 +7,14 @@ import ru.psu.amyum.park.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
 
     public UserController(UserService userService) { this.userService = userService; }
 
-    @GetMapping
+    @GetMapping("/userList")
     public List<User> findAll() {
         return userService.findAll();
     }
