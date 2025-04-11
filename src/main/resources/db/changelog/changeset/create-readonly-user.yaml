@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-readonly-user
+      author: SofiaPalkina
+      changes:
+        - sql:
+            splitStatements: false
+            stripComments: true
+            sql: |
+              CREATE USER readonly_user WITH PASSWORD 'readonly_password';
+              GRANT SELECT ON parkings TO readonly_user;
+              GRANT SELECT ON places TO readonly_user;
