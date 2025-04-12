@@ -14,7 +14,6 @@ public class UserRegistrationDto {
     @Size(min = 6, message = "Пароль должен содержать минимум 6 символов")
     private String password;
 
-    // Геттеры и сеттеры
     public String getEmail() {
         return email;
     }
