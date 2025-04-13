@@ -30,6 +30,14 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	compileOnly 'org.projectlombok:lombok:1.18.30' // Зависимость Lombok
+	annotationProcessor 'org.projectlombok:lombok:1.18.30' // Для аннотаций
+	testCompileOnly 'org.projectlombok:lombok:1.18.30' // Для тестов
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30' // Для тестов
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
 }
 
 tasks.named('test') {
