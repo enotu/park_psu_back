@@ -24,14 +24,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(AbstractHttpConfigurer::disable) // Настройка CORS
-                .csrf(AbstractHttpConfigurer::disable) // Отключение CSRF
+                .cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/registration").permitAll() // Разрешить доступ к API без авторизации
+                        .requestMatchers("/api/register", "/api/login", "/api/refresh").permitAll()
                         .requestMatchers("/api/**").authenticated())
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Использование статeless сессий
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Добавление фильтра JWT перед фильтром аутентификации
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

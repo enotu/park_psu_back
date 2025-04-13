@@ -1,14 +1,12 @@
 package ru.psu.amyum.park.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.psu.amyum.park.dto.JwtAuthenticationDto;
 import ru.psu.amyum.park.dto.RefreshTokenDto;
 import ru.psu.amyum.park.dto.UserCredentialsDto;
-
 import ru.psu.amyum.park.dto.UserDto;
 import ru.psu.amyum.park.mapper.UserMapper;
 import ru.psu.amyum.park.model.User;
@@ -26,7 +24,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final UserMapper userMapper;
-
 
     @Override
     public JwtAuthenticationDto singIn(UserCredentialsDto userCredentialsDto) throws AuthenticationException {
@@ -46,19 +43,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto getUserByEmail(String email) throws ChangeSetPersister.NotFoundException {
+    public UserDto getUserByEmail(String email) {
         return userMapper.toDto(userRepository.findByEmail(email)
-                .orElseThrow(ChangeSetPersister.NotFoundException::new));
+                .orElseThrow(() -> new IllegalArgumentException("User not found")));
     }
 
     @Override
     public String register(UserDto userDto) {
+        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("User with this email already exists");
+        }
         User user = userMapper.toEntity(userDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return "User registered successfully";
     }
-
 
     private User findByCredentials(UserCredentialsDto userCredentialsDto) throws AuthenticationException {
         Optional<User> optionalUser = userRepository.findByEmail(userCredentialsDto.getEmail());
@@ -71,7 +70,8 @@ public class UserServiceImpl implements UserService {
         throw new AuthenticationException("Invalid email or password");
     }
 
-    private User findByEmail(String email) throws Exception {
-        return userRepository.findByEmail(email).orElseThrow(() -> new Exception(String.format("User with email %s not found", email)));
+    private User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 }

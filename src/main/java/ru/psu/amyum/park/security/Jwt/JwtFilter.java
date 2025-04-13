@@ -15,7 +15,6 @@ import ru.psu.amyum.park.security.CustomUserDetails;
 import ru.psu.amyum.park.security.CustomUserService;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
