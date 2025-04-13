@@ -1,6 +1,7 @@
 package ru.psu.amyum.park.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.psu.amyum.park.dto.JwtAuthenticationDto;
@@ -28,10 +29,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JwtAuthenticationDto> register(@RequestBody UserDto userDto) throws AuthenticationException {
-        userService.register(userDto);
-        JwtAuthenticationDto jwtAuthenticationDto = userService.singIn(new UserCredentialsDto(userDto.getEmail(), userDto.getPassword()));
-        return ResponseEntity.ok(jwtAuthenticationDto);
+    public ResponseEntity<JwtAuthenticationDto> register(@RequestBody UserDto userDto) {
+        try {
+            userService.register(userDto);
+            JwtAuthenticationDto jwtAuthenticationDto = userService.singIn(new UserCredentialsDto(userDto.getEmail(), userDto.getPassword()));
+            return ResponseEntity.ok(jwtAuthenticationDto);
+        } catch (Exception e) {
+            e.printStackTrace(); // Логирование ошибки
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PostMapping("/refresh")

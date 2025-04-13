@@ -86,6 +86,9 @@ public class JwtService {
     }
 
     private SecretKey getSingInKey() {
+        if (jwtSecret.length() < 32) {
+            throw new IllegalArgumentException("JWT secret key must be at least 256 bits (32 characters) long.");
+        }
         byte[] encodedKey = Decoders.BASE64.decode(jwtSecret);
         return Keys.hmacShaKeyFor(encodedKey);
     }
