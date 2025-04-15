@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: set-places-booking-time-default-value
+      author: SofiaPalkina
+      changes:
+        - addDefaultValue:
+            tableName: places
+            columnName: booking_time
+            defaultValueComputed: "CURRENT_TIMESTAMP"
