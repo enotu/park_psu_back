@@ -9,7 +9,6 @@ import ru.psu.amyum.park.repository.BookingLogRepository;
 import ru.psu.amyum.park.repository.PlaceRepository;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,25 +27,25 @@ public class BookingService {
 
     @Transactional
     public void bookPlace(int parkingId, int placeNumber, Timestamp bookingTime, int durationMinutes) {
-        Place place = placeRepository.findByPlace_numberAndParking_id(placeNumber, parkingId)
+        Place place = placeRepository.findById_PlaceNumberAndId_ParkingId(placeNumber, parkingId)
                 .orElseThrow(() -> new RuntimeException("Место не найдено"));
 
-        if (Boolean.TRUE.equals(place.getIs_occupied())) {
+        if (Boolean.TRUE.equals(place.getIsOccupied())) {
             throw new RuntimeException("Место уже занято");
         }
 
-        place.setIs_occupied(true);
-        place.setBooking_time(bookingTime);
+        place.setIsOccupied(true);
+        place.setBookingTime(bookingTime);
         // Допустим пользователь определяется из сессии — здесь заглушка:
-        place.setUser_id(1);
+        place.setUserId(1);
         placeRepository.save(place);
 
         BookingLog log = new BookingLog();
-        log.setUser_id(1);
-        log.setParking_id(parkingId);
-        log.setPlace_number(placeNumber);
-        log.setBooked_at(bookingTime);
-        log.setReleased_at(Timestamp.valueOf(bookingTime.toLocalDateTime().plusMinutes(durationMinutes)));
+        log.setUserId(1);
+        log.setParkingId(parkingId);
+        log.setPlaceNumber(placeNumber);
+        log.setBookedAt(bookingTime);
+        log.setReleasedAt(Timestamp.valueOf(bookingTime.toLocalDateTime().plusMinutes(durationMinutes)));
 
         bookingLogRepository.save(log);
     }

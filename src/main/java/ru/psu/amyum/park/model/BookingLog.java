@@ -10,19 +10,24 @@ public class BookingLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer user_id;
-    private Integer parking_id;
-    private Integer place_number;
-    private Timestamp booked_at;
-    private Timestamp released_at;
+    @Column(name = "user_id")
+    private Integer userId;
+    @Column(name = "parking_id")
+    private Integer parkingId;
+    @Column(name = "place_number")
+    private Integer placeNumber;
+    @Column(name = "booked_at")
+    private Timestamp bookedAt;
+    @Column(name = "released_at")
+    private Timestamp releasedAt;
 
-    public BookingLog(Integer id, Integer user_id, Integer parking_id, Integer place_number, Timestamp booked_at, Timestamp released_at) {
+    public BookingLog(Integer id, Integer userId, Integer parkingId, Integer placeNumber, Timestamp bookedAt, Timestamp releasedAt) {
         this.id = id;
-        this.user_id = user_id;
-        this.parking_id = parking_id;
-        this.place_number = place_number;
-        this.booked_at = booked_at;
-        this.released_at = released_at;
+        this.userId = userId;
+        this.parkingId = parkingId;
+        this.placeNumber = placeNumber;
+        this.bookedAt = bookedAt;
+        this.releasedAt = releasedAt;
     }
 
     public BookingLog() {}
@@ -35,43 +40,43 @@ public class BookingLog {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer user_id) {
+        this.userId = user_id;
     }
 
-    public Integer getParking_id() {
-        return parking_id;
+    public Integer getParkingId() {
+        return parkingId;
     }
 
-    public void setParking_id(Integer parking_id) {
-        this.parking_id = parking_id;
+    public void setParkingId(Integer parking_id) {
+        this.parkingId = parking_id;
     }
 
-    public Integer getPlace_number() {
-        return place_number;
+    public Integer getPlaceNumber() {
+        return placeNumber;
     }
 
-    public void setPlace_number(Integer place_number) {
-        this.place_number = place_number;
+    public void setPlaceNumber(Integer place_number) {
+        this.placeNumber = place_number;
     }
 
-    public Timestamp getBooked_at() {
-        return booked_at;
+    public Timestamp getBookedAt() {
+        return bookedAt;
     }
 
-    public void setBooked_at(Timestamp booked_at) {
-        this.booked_at = booked_at;
+    public void setBookedAt(Timestamp booked_at) {
+        this.bookedAt = booked_at;
     }
 
-    public Timestamp getReleased_at() {
-        return released_at;
+    public Timestamp getReleasedAt() {
+        return releasedAt;
     }
 
-    public void setReleased_at(Timestamp released_at) {
-        this.released_at = released_at;
+    public void setReleasedAt(Timestamp released_at) {
+        this.releasedAt = released_at;
     }
 }

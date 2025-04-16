@@ -1,62 +1,74 @@
 package ru.psu.amyum.park.model;
 
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 
+@Entity
+@Table(name = "places")
 public class Place {
-    private Integer place_number;
-    private Integer parking_id;
-    private Boolean is_occupied;
-    private Integer user_id;
-    private Timestamp booking_time;
+    @EmbeddedId
+    private PlaceId id;
+    @Column(name = "is_occupied")
+    private Boolean isOccupied;
+    @Column(name = "user_id")
+    private Integer userId;
+    @Column(name = "booking_time")
+    private Timestamp bookingTime;
 
-    public Place(Integer place_number, Integer parking_id, Boolean is_occupied, Integer user_id, Timestamp booking_time) {
-        this.place_number = place_number;
-        this.parking_id = parking_id;
-        this.is_occupied = is_occupied;
-        this.user_id = user_id;
-        this.booking_time = booking_time;
+    public Place(PlaceId id, Boolean isOccupied, Integer userId, Timestamp bookingTime) {
+        this.id = id;
+        this.isOccupied = isOccupied;
+        this.userId = userId;
+        this.bookingTime = bookingTime;
     }
 
-    public Place() {
+    public Place() {}
+
+    public PlaceId getId() {
+        return id;
     }
 
-    public Integer getPlace_number() {
-        return place_number;
+    public void setId(PlaceId id) {
+        this.id = id;
     }
 
-    public void setPlace_number(Integer place_number) {
-        this.place_number = place_number;
+    public Integer getPlaceNumber() {
+        return id.getPlaceNumber();
     }
 
-    public Integer getParking_id() {
-        return parking_id;
+    public void setPlaceNumber(Integer placeNumber) {
+        id.setPlaceNumber(placeNumber);
     }
 
-    public void setParking_id(Integer parking_id) {
-        this.parking_id = parking_id;
+    public Integer getParkingId() {
+        return id.getParkingId();
     }
 
-    public Boolean getIs_occupied() {
-        return is_occupied;
+    public void setParkingId(Integer parkingId) {
+        id.setParkingId(parkingId);
     }
 
-    public void setIs_occupied(Boolean is_occupied) {
-        this.is_occupied = is_occupied;
+    public Boolean getIsOccupied() {
+        return isOccupied;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public void setIsOccupied(Boolean isOccupied) {
+        this.isOccupied = isOccupied;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public Timestamp getBooking_time() {
-        return booking_time;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public void setBooking_time(Timestamp booking_time) {
-        this.booking_time = booking_time;
+    public Timestamp getBookingTime() {
+        return bookingTime;
+    }
+
+    public void setBookingTime(Timestamp bookingTime) {
+        this.bookingTime = bookingTime;
     }
 }
