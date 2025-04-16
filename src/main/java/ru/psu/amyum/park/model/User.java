@@ -1,4 +1,4 @@
-package ru.psu.amyum.park.repository;
+package ru.psu.amyum.park.model;
 
 import jakarta.persistence.*;
 

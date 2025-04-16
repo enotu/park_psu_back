@@ -1,7 +1,7 @@
 package ru.psu.amyum.park.service;
 
 import org.springframework.stereotype.Service;
-import ru.psu.amyum.park.repository.Parking;
+import ru.psu.amyum.park.model.Parking;
 import ru.psu.amyum.park.repository.ParkingRepository;
 
 import java.util.List;

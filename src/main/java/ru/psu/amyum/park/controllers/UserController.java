@@ -1,7 +1,7 @@
 package ru.psu.amyum.park.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import ru.psu.amyum.park.repository.User;
+import ru.psu.amyum.park.model.User;
 import ru.psu.amyum.park.service.UserService;
 
 import java.util.List;
