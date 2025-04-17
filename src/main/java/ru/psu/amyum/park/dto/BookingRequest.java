@@ -1,49 +1,72 @@
 package ru.psu.amyum.park.dto;
 
-public class BookingRequest {
-    private Integer placeId;
-    private String date;
-    private String start_time;
-    private Integer parking_time;
 
-    public BookingRequest(Integer placeId, String date, String start_time, Integer parking_time) {
-        this.placeId = placeId;
+import java.time.LocalDate;
+
+public class BookingRequest {
+    private Integer placeNumber;
+    private Integer parkingId;
+    private Integer userId;
+    private LocalDate date;
+    private String startTime;
+    private Integer parkingTime;
+
+    public BookingRequest(Integer placeNumber, Integer parkingId, Integer userId, LocalDate date, String startTime, Integer parkingTime) {
+        this.placeNumber = placeNumber;
+        this.parkingId = parkingId;
+        this.userId = userId;
         this.date = date;
-        this.start_time = start_time;
-        this.parking_time = parking_time;
+        this.startTime = startTime;
+        this.parkingTime = parkingTime;
     }
 
     public BookingRequest() {}
 
-    public Integer getPlaceId() {
-        return placeId;
+    public Integer getPlaceNumber() {
+        return placeNumber;
     }
 
-    public void setPlaceId(Integer placeId) {
-        this.placeId = placeId;
+    public void setPlaceNumber(Integer placeNumber) {
+        this.placeNumber = placeNumber;
     }
 
-    public String getDate() {
+    public Integer getParkingId() {
+        return parkingId;
+    }
+
+    public void setParkingId(Integer parkingId) {
+        this.parkingId = parkingId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getStart_time() {
-        return start_time;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public Integer getParking_time() {
-        return parking_time;
+    public Integer getParkingTime() {
+        return parkingTime;
     }
 
-    public void setParking_time(Integer parking_time) {
-        this.parking_time = parking_time;
+    public void setParkingTime(Integer parkingTime) {
+        this.parkingTime = parkingTime;
     }
 }

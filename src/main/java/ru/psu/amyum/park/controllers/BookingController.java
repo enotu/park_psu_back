@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.psu.amyum.park.dto.BookingRequest;
 import ru.psu.amyum.park.service.BookingService;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @RestController
-@RequestMapping(path = "/api/booking")
+@RequestMapping(path = "/api")
 public class BookingController {
     private final BookingService bookingService;
 
@@ -17,13 +21,17 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @PostMapping
+    @PostMapping("/booking")
     public ResponseEntity<String> bookPlace(@RequestBody BookingRequest request) {
-        try {
-            bookingService.bookFromDto(request);
-            return ResponseEntity.ok("Место успешно забронировано");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Ошибка бронирования: " + e.getMessage());
-        }
+        LocalTime startTime = LocalTime.parse(request.getStartTime());
+        LocalDateTime startDateTime = LocalDateTime.of(request.getDate(), startTime);
+        Timestamp bookingTime = Timestamp.valueOf(startDateTime);
+
+        int placeNumber = request.getPlaceNumber();
+        int userId = request.getUserId();
+        int parkingId = request.getParkingId();
+
+        bookingService.bookPlace(placeNumber, parkingId, userId, bookingTime, request.getParkingTime());
+        return ResponseEntity.ok("Booking received");
     }
 }
