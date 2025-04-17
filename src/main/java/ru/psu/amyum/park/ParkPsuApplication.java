@@ -12,8 +12,6 @@ public class ParkPsuApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ParkPsuApplication.class, args);
-//		String secretKey = Base64.getEncoder().encodeToString(Keys.secretKeyFor(SignatureAlgorithm.HS256).getEncoded());
-//		System.out.println("Generated Key: " + secretKey);
 	}
 
 	@Bean
@@ -23,9 +21,9 @@ public class ParkPsuApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/**")
 						.allowedOrigins("http://localhost:1409") // Укажите разрешённый origin
-						.allowedMethods("GET", "POST", "PUT", "DELETE");
-//						.allowedHeaders("*")
-//						.allowCredentials(true);
+						.allowedMethods("GET", "POST", "PUT", "DELETE")
+						.allowedHeaders("*")
+						.allowCredentials(true);
 			}
 		};
 	}
