@@ -23,3 +23,5 @@ databaseChangeLog:
       file: db/changelog/changeset/create-update-parking-average-trigger.yaml
   - include:
       file: db/changelog/changeset/delete-user-name-column.yaml
+  - include:
+      file: db/changelog/changeset/create-release-expired-bookings-function.yaml
