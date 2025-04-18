@@ -23,15 +23,21 @@ public class BookingController {
 
     @PostMapping("/booking")
     public ResponseEntity<String> bookPlace(@RequestBody BookingRequest request) {
-        LocalTime startTime = LocalTime.parse(request.getStartTime());
+        LocalTime startTime = LocalTime.parse(request.getStart_time());
         LocalDateTime startDateTime = LocalDateTime.of(request.getDate(), startTime);
         Timestamp bookingTime = Timestamp.valueOf(startDateTime);
 
-        int placeNumber = request.getPlaceNumber();
-        int userId = request.getUserId();
+        int placeId = request.getPlaceId();
+        int userId = 1;     // пока что пусть 1
         int parkingId = request.getParkingId();
+        int parkingTime = request.getParking_time();
 
-        bookingService.bookPlace(placeNumber, parkingId, userId, bookingTime, request.getParkingTime());
+        System.out.println(placeId);
+        System.out.println(userId);
+        System.out.println(parkingId);
+        System.out.println(parkingTime);
+
+        bookingService.bookPlace(placeId, parkingId, userId, bookingTime, parkingTime);
         return ResponseEntity.ok("Booking received");
     }
 }
