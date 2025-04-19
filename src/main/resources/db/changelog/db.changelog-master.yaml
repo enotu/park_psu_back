@@ -25,3 +25,5 @@ databaseChangeLog:
       file: db/changelog/changeset/delete-user-name-column.yaml
   - include:
       file: db/changelog/changeset/create-release-expired-bookings-function.yaml
+  - include:
+      file: db/changelog/changeset/delete-is-occupied-column.yaml
