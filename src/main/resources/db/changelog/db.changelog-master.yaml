@@ -29,3 +29,5 @@ databaseChangeLog:
       file: db/changelog/changeset/delete-is-occupied-column.yaml
   - include:
       file: db/changelog/changeset/delete-booking-time-column.yaml
+  - include:
+      file: db/changelog/changeset/delete-update-booking-time-trigger.yaml
