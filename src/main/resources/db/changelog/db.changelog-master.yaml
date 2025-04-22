@@ -33,3 +33,5 @@ databaseChangeLog:
       file: db/changelog/changeset/delete-update-booking-time-trigger.yaml
   - include:
       file: db/changelog/changeset/update-update-parking-free-trigger-and-function.yaml
+  - include:
+      file: db/changelog/changeset/update-release-expired-bookings-function.yaml
