@@ -1,10 +1,10 @@
 package ru.psu.amyum.park.model;
 
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "parkings")
 public class Parking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
