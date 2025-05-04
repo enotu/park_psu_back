@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: delete-booking-time-column
+      author: SofiaPalkina
+      changes:
+        - dropColumn:
+            columnName: booking_time
+            tableName: places

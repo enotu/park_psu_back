@@ -2,7 +2,7 @@ package ru.psu.amyum.park.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import ru.psu.amyum.park.repository.User;
+import ru.psu.amyum.park.model.User;
 import ru.psu.amyum.park.repository.UserRepository;
 
 import java.util.List;

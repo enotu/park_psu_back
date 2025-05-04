@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-update-parking-free-trigger-and-function
+      author: SofiaPalkina
+      changes:
+        - sql:
+            dbms: postgresql
+            splitStatements: false
+            stripComments: false
+            sql: |
+              DROP TRIGGER IF EXISTS update_parking_free_trigger ON places;
+              DROP FUNCTION IF EXISTS update_parking_free;
+              
+              CREATE OR REPLACE FUNCTION update_parking_free()
+              RETURNS trigger AS $$
+              BEGIN
+                IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+                  UPDATE parkings
+                  SET parking_free = (
+                    SELECT COUNT(*) FROM places 
+                    WHERE parking_id = NEW.parking_id 
+                    AND user_id IS NOT NULL
+                  )
+                  WHERE id = NEW.parking_id;
+              
+                ELSIF TG_OP = 'DELETE' THEN
+                  UPDATE parkings
+                  SET parking_free = (
+                    SELECT COUNT(*) FROM places 
+                    WHERE parking_id = OLD.parking_id 
+                    AND user_id IS NOT NULL
+                  )
+                  WHERE id = OLD.parking_id;
+                END IF;
+              
+                RETURN NULL;
+              END;
+              $$ LANGUAGE plpgsql;
+              
+              CREATE TRIGGER update_parking_free_trigger
+              AFTER INSERT OR UPDATE OR DELETE ON places
+              FOR EACH ROW
+              EXECUTE FUNCTION update_parking_free();
