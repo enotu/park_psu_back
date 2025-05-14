@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ParkPsuApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <module name="park_psu.main" />
+    <target name="root@94.250.252.195:22" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="ru.psu.amyum.park.ParkPsuApplication" />
     <method v="2">
       <option name="Make" enabled="true" />
