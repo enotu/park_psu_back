@@ -2,9 +2,14 @@ package ru.psu.amyum.park.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Setter
+@Getter
 @Embeddable
 public class PlaceId implements Serializable {
 
@@ -18,22 +23,6 @@ public class PlaceId implements Serializable {
 
     public PlaceId(Integer placeNumber, Integer parkingId) {
         this.placeNumber = placeNumber;
-        this.parkingId = parkingId;
-    }
-
-    public Integer getPlaceNumber() {
-        return placeNumber;
-    }
-
-    public void setPlaceNumber(Integer placeNumber) {
-        this.placeNumber = placeNumber;
-    }
-
-    public Integer getParkingId() {
-        return parkingId;
-    }
-
-    public void setParkingId(Integer parkingId) {
         this.parkingId = parkingId;
     }
 

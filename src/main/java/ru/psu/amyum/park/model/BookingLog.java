@@ -1,9 +1,13 @@
 package ru.psu.amyum.park.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "booking_logs")
 public class BookingLog {
@@ -32,51 +36,4 @@ public class BookingLog {
 
     public BookingLog() {}
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer user_id) {
-        this.userId = user_id;
-    }
-
-    public Integer getParkingId() {
-        return parkingId;
-    }
-
-    public void setParkingId(Integer parking_id) {
-        this.parkingId = parking_id;
-    }
-
-    public Integer getPlaceNumber() {
-        return placeNumber;
-    }
-
-    public void setPlaceNumber(Integer place_number) {
-        this.placeNumber = place_number;
-    }
-
-    public Timestamp getBookedAt() {
-        return bookedAt;
-    }
-
-    public void setBookedAt(Timestamp booked_at) {
-        this.bookedAt = booked_at;
-    }
-
-    public Timestamp getReleasedAt() {
-        return releasedAt;
-    }
-
-    public void setReleasedAt(Timestamp released_at) {
-        this.releasedAt = released_at;
-    }
 }

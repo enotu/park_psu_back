@@ -12,5 +12,5 @@ public interface UserService {
     JwtAuthenticationDto singIn(UserCredentialsDto userCredentialsDto) throws AuthenticationException;
     JwtAuthenticationDto refreshToken(RefreshTokenDto refreshTokenDto) throws Exception;
     UserDto getUserByEmail(String email) throws ChangeSetPersister.NotFoundException;
-    String register(UserDto user);
+    void register(UserDto user);
 }

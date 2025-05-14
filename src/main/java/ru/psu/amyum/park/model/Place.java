@@ -1,8 +1,13 @@
 package ru.psu.amyum.park.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.Timestamp;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "places")
 public class Place {
@@ -24,14 +29,6 @@ public class Place {
 
     public Place() {}
 
-    public PlaceId getId() {
-        return id;
-    }
-
-    public void setId(PlaceId id) {
-        this.id = id;
-    }
-
     public Integer getPlaceNumber() {
         return id.getPlaceNumber();
     }
@@ -48,27 +45,4 @@ public class Place {
         id.setParkingId(parkingId);
     }
 
-    public Boolean getIsOccupied() {
-        return isOccupied;
-    }
-
-    public void setIsOccupied(Boolean isOccupied) {
-        this.isOccupied = isOccupied;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Timestamp getBookingTime() {
-        return bookingTime;
-    }
-
-    public void setBookingTime(Timestamp bookingTime) {
-        this.bookingTime = bookingTime;
-    }
 }

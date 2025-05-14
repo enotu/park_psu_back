@@ -20,7 +20,7 @@ public class ParkPsuApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/**")
-						.allowedOrigins("http://localhost:1409") // Укажите разрешённый origin
+						.allowedOrigins("http://localhost:3000") // Укажите разрешённый origin
 						.allowedMethods("GET", "POST", "PUT", "DELETE")
 						.allowedHeaders("*")
 						.allowCredentials(true);
