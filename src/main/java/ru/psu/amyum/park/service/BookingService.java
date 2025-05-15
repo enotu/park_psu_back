@@ -25,23 +25,28 @@ public class BookingService {
         Place place = placeRepository.findById_PlaceNumberAndId_ParkingId(placeNumber, parkingId)
                 .orElseThrow(() -> new RuntimeException("Место не найдено"));
 
-        if (place.getIsOccupied() == Boolean.TRUE) {
+        if (Boolean.TRUE.equals(place.getIsOccupied())) {
             throw new RuntimeException("Место уже занято");
         }
 
         place.setIsOccupied(true);
         place.setBookingTime(bookingTime);
         place.setUserId(userId);
+        Timestamp parkingEndTime = Timestamp.valueOf(bookingTime.toLocalDateTime().plusMinutes(durationMinutes));
+        place.setParkingEndTime(parkingEndTime);
+
         placeRepository.save(place);
 
-        BookingLog log = new BookingLog();
+        bookingLogRepository.save(createBookingLog(userId, parkingId, placeNumber, bookingTime, parkingEndTime));
+    }
 
+    private BookingLog createBookingLog(int userId, int parkingId, int placeNumber, Timestamp bookedAt, Timestamp releasedAt) {
+        BookingLog log = new BookingLog();
         log.setUserId(userId);
         log.setParkingId(parkingId);
         log.setPlaceNumber(placeNumber);
-        log.setBookedAt(bookingTime);
-        log.setReleasedAt(Timestamp.valueOf(bookingTime.toLocalDateTime().plusMinutes(durationMinutes)));
-        bookingLogRepository.save(log);
+        log.setBookedAt(bookedAt);
+        log.setReleasedAt(releasedAt);
+        return log;
     }
 }
-
