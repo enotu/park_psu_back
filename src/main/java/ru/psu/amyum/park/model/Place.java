@@ -20,7 +20,7 @@ public class Place {
     @Column(name = "booking_time")
     private Timestamp bookingTime;
     @Column(name = "parking_end_time")
-    private Timestamp parkingEndTime; // новое поле
+    private Timestamp parkingEndTime;
 
     public Place(PlaceId id, Boolean isOccupied, Integer userId, Timestamp bookingTime, Timestamp parkingEndTime) {
         this.id = id;
@@ -56,7 +56,4 @@ public class Place {
         return Boolean.TRUE.equals(isOccupied);
     }
 
-    public Timestamp getParkingEndTime() {
-        return parkingEndTime;
-    }
 }

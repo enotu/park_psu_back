@@ -35,7 +35,7 @@ public class AuthController {
             JwtAuthenticationDto jwtAuthenticationDto = userService.singIn(new UserCredentialsDto(userDto.getEmail(), userDto.getPassword()));
             return ResponseEntity.ok(jwtAuthenticationDto);
         } catch (Exception e) {
-            e.printStackTrace(); // Логирование ошибки
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

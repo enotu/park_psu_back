@@ -14,6 +14,7 @@ public class BookingService {
     private final PlaceRepository placeRepository;
     private final BookingLogRepository bookingLogRepository;
 
+
     public BookingService(PlaceRepository placeRepository,
                           BookingLogRepository bookingLogRepository) {
         this.placeRepository = placeRepository;

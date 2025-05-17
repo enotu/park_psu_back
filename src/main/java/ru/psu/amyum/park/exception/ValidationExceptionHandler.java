@@ -13,11 +13,15 @@ import java.util.Map;
 public class ValidationExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage())
         );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Ошибка валидации");
+        response.put("errors", errors);
+        response.put("code", "VALIDATION_ERROR");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
