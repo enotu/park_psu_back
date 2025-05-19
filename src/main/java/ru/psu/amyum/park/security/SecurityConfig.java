@@ -47,7 +47,10 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "http://94.250.252.195:3000",
-                "http://localhost:3000")); // или * для теста
+                "http://localhost:3000",
+                "http://yumparking.tech",
+                "https://yumparking.tech"
+                )); // или * для теста
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // важно для куки и токенов

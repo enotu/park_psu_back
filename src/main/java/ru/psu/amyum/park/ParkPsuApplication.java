@@ -22,8 +22,10 @@ public class ParkPsuApplication {
 				registry.addMapping("/api/**")
 						.allowedOrigins(
 								"http://94.250.252.195:3000",
-								"http://localhost:3000"
-						)// Укажите разрешённый origin
+								"http://localhost:3000",
+								"http://yumparking.tech",
+								"https://yumparking.tech"
+								)// Укажите разрешённый origin
 						.allowedMethods("GET", "POST", "PUT", "DELETE")
 						.allowedHeaders("*")
 						.allowCredentials(true);
