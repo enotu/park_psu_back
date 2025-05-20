@@ -7,13 +7,14 @@ import ru.psu.amyum.park.model.Place;
 import ru.psu.amyum.park.repository.BookingLogRepository;
 import ru.psu.amyum.park.repository.PlaceRepository;
 import java.sql.Timestamp;
+import java.util.List;
+
 
 @Service
 public class BookingService {
 
     private final PlaceRepository placeRepository;
     private final BookingLogRepository bookingLogRepository;
-
 
     public BookingService(PlaceRepository placeRepository,
                           BookingLogRepository bookingLogRepository) {
@@ -41,6 +42,10 @@ public class BookingService {
         bookingLogRepository.save(createBookingLog(userId, parkingId, placeNumber, bookingTime, parkingEndTime));
     }
 
+    public List<BookingLog> getBookingsByPlaceAndParking(Integer placeNumber, Integer parkingId) {
+        return bookingLogRepository.findByPlaceNumberAndParkingIdOrderByBookedAtDesc(placeNumber, parkingId);
+    }
+
     private BookingLog createBookingLog(int userId, int parkingId, int placeNumber, Timestamp bookedAt, Timestamp releasedAt) {
         BookingLog log = new BookingLog();
         log.setUserId(userId);
@@ -50,4 +55,5 @@ public class BookingService {
         log.setReleasedAt(releasedAt);
         return log;
     }
+
 }

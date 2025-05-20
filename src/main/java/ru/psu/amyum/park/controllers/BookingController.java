@@ -2,21 +2,21 @@ package ru.psu.amyum.park.controllers;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.psu.amyum.park.dto.BookingRequest;
 import ru.psu.amyum.park.service.BookingService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ru.psu.amyum.park.service.UserService;
 import ru.psu.amyum.park.dto.BookingResponse;
-
+import ru.psu.amyum.park.model.BookingLog;
+import ru.psu.amyum.park.dto.BookedSpot;
+import java.util.stream.Collectors;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -53,5 +53,21 @@ public class BookingController {
                 parkingTime
         );
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/bookedList")
+    public ResponseEntity<List<BookedSpot>> getBookedList(
+            @RequestParam("parkingId") Integer parkingId,
+            @RequestParam("placeId") Integer placeId) {
+        List<BookingLog> bookings = bookingService.getBookingsByPlaceAndParking(placeId, parkingId);
+
+        List<BookedSpot> bookedSpots = bookings.stream()
+                .map(booking -> new BookedSpot(
+                        booking.getBookedAt(),
+                        booking.getReleasedAt()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(bookedSpots);
     }
 }
