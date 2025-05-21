@@ -22,22 +22,36 @@ public class BookingService {
         this.bookingLogRepository = bookingLogRepository;
     }
 
+    public boolean isBookingAvailable(int placeNumber, int parkingId, Timestamp newStart, Timestamp newEnd){
+        List<BookingLog> bookings = bookingLogRepository.findByPlaceNumberAndParkingIdOrderByBookedAtDesc(placeNumber, parkingId);
+        for (BookingLog booking : bookings) {
+            Timestamp existingStart = booking.getBookedAt();
+            Timestamp existingEnd = booking.getReleasedAt();
+            if (newStart.before(existingEnd) && newEnd.after(existingStart)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Transactional
     public void bookPlace(int placeNumber, int parkingId, int userId, Timestamp bookingTime, int durationMinutes) {
+        Timestamp parkingEndTime = Timestamp.valueOf(bookingTime.toLocalDateTime().plusMinutes(durationMinutes));
+        if (!isBookingAvailable(placeNumber, parkingId, bookingTime, parkingEndTime)) {
+            throw new RuntimeException("Место занято в указанный период");
+        }
+
         Place place = placeRepository.findById_PlaceNumberAndId_ParkingId(placeNumber, parkingId)
                 .orElseThrow(() -> new RuntimeException("Место не найдено"));
 
-        if (Boolean.TRUE.equals(place.getIsOccupied())) {
-            throw new RuntimeException("Место уже занято");
+
+        if(place.getParkingEndTime() == null || bookingTime.after(place.getParkingEndTime()) || bookingTime.equals(place.getParkingEndTime())) {
+            place.setIsOccupied(true);
+            place.setBookingTime(bookingTime);
+            place.setUserId(userId);
+            place.setParkingEndTime(parkingEndTime);
+            placeRepository.save(place);
         }
-
-        place.setIsOccupied(true);
-        place.setBookingTime(bookingTime);
-        place.setUserId(userId);
-        Timestamp parkingEndTime = Timestamp.valueOf(bookingTime.toLocalDateTime().plusMinutes(durationMinutes));
-        place.setParkingEndTime(parkingEndTime);
-
-        placeRepository.save(place);
 
         bookingLogRepository.save(createBookingLog(userId, parkingId, placeNumber, bookingTime, parkingEndTime));
     }
