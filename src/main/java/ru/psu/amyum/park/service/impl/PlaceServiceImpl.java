@@ -10,6 +10,7 @@ import ru.psu.amyum.park.service.PlaceService;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,9 +40,14 @@ public class PlaceServiceImpl implements PlaceService {
         placeRepository.releaseExpiredPlaces(now);
     }
 
-    @Scheduled(fixedRate = 60000) // каждую минуту
+    @Scheduled(fixedRate = 60000)
     @Transactional
     public void activateFutureBooking() {
-        jdbcTemplate.execute("SELECT activate_future_booking();");
+        jdbcTemplate.query(
+                "SELECT activate_future_booking(?)",
+                ps -> ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now())),
+                rs -> {
+                }
+        );
     }
 }
