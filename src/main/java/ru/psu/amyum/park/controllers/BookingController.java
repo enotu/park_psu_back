@@ -64,7 +64,8 @@ public class BookingController {
         List<BookingLog> bookings = bookingService.getBookingsByPlaceAndParking(placeId, parkingId);
 
         List<BookedSpot> bookedSpots = bookings.stream()
-                .filter(booking -> booking.getReleasedAt().after(Timestamp.from(Instant.now())))                .map(booking -> new BookedSpot(
+                .filter(booking -> booking.getReleasedAt().after(Timestamp.from(Instant.now())))
+                .map(booking -> new BookedSpot(
                         booking.getBookedAt(),
                         booking.getReleasedAt()
                 ))
