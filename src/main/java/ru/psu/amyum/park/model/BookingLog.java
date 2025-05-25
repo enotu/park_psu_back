@@ -24,6 +24,8 @@ public class BookingLog {
     private Timestamp bookedAt;
     @Column(name = "released_at")
     private Timestamp releasedAt;
+    @Column(name = "activated")
+    private Boolean activated;
 
     public BookingLog(Integer id, Integer userId, Integer parkingId, Integer placeNumber, Timestamp bookedAt, Timestamp releasedAt) {
         this.id = id;

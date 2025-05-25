@@ -7,6 +7,7 @@ import ru.psu.amyum.park.model.Place;
 import ru.psu.amyum.park.repository.BookingLogRepository;
 import ru.psu.amyum.park.repository.PlaceRepository;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -41,6 +42,11 @@ public class BookingService {
             throw new RuntimeException("Место занято в указанный период");
         }
 
+        if (bookingTime.after(Timestamp.valueOf(LocalDateTime.now()))) {
+            bookingLogRepository.save(createBookingLog(userId, parkingId, placeNumber, bookingTime, parkingEndTime, false));
+            return;
+        }
+
         Place place = placeRepository.findById_PlaceNumberAndId_ParkingId(placeNumber, parkingId)
                 .orElseThrow(() -> new RuntimeException("Место не найдено"));
 
@@ -53,20 +59,21 @@ public class BookingService {
             placeRepository.save(place);
         }
 
-        bookingLogRepository.save(createBookingLog(userId, parkingId, placeNumber, bookingTime, parkingEndTime));
+        bookingLogRepository.save(createBookingLog(userId, parkingId, placeNumber, bookingTime, parkingEndTime, true));
     }
 
     public List<BookingLog> getBookingsByPlaceAndParking(Integer placeNumber, Integer parkingId) {
         return bookingLogRepository.findByPlaceNumberAndParkingIdOrderByBookedAtDesc(placeNumber, parkingId);
     }
 
-    private BookingLog createBookingLog(int userId, int parkingId, int placeNumber, Timestamp bookedAt, Timestamp releasedAt) {
+    private BookingLog createBookingLog(int userId, int parkingId, int placeNumber, Timestamp bookedAt, Timestamp releasedAt, boolean activated) {
         BookingLog log = new BookingLog();
         log.setUserId(userId);
         log.setParkingId(parkingId);
         log.setPlaceNumber(placeNumber);
         log.setBookedAt(bookedAt);
         log.setReleasedAt(releasedAt);
+        log.setActivated(activated);
         return log;
     }
 

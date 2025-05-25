@@ -1,19 +1,17 @@
 package ru.psu.amyum.park.dto;
 
 import lombok.Data;
-
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Data
 public class Spot {
     private int id;
-    private boolean isOccupied;
-    private Date parkingEndTime; // или LocalDateTime, если нужно
+    private String isOccupied; // "free", "occupied", "mine"
+    private Timestamp parkingEndTime;
 
-    public Spot(int id, boolean isOccupied, Date parkingEndTime) {
+    public Spot(int id, String isOccupied, Timestamp parkingEndTime) {
         this.id = id;
         this.isOccupied = isOccupied;
         this.parkingEndTime = parkingEndTime;
     }
-
 }
