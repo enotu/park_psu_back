@@ -39,7 +39,7 @@ public class PlaceController {
 
         List<Place> places = placeService.findByParkingId(parkingId);
         return places.stream()
-                .sorted(Comparator.comparing(Place::getId)) // или getPlaceNumber, если это номер места
+                .sorted(Comparator.comparing(Place::getId))
                 .map(place -> {
                     String isOccupied;
                     if (place.isOccupied()) {
@@ -52,7 +52,7 @@ public class PlaceController {
                         isOccupied = "free";
                     }
                     return new Spot(
-                            place.getId(), // или place.getPlaceNumber()
+                            place.getId(),
                             isOccupied,
                             place.getParkingEndTime()
                     );

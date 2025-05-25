@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BookingLogRepository extends JpaRepository<BookingLog, Integer> {
     List<BookingLog> findByPlaceNumberAndParkingIdOrderByBookedAtDesc(Integer placeNumber, Integer parkingId);
+    List<BookingLog> findByUserId(int userId);
+
 }
