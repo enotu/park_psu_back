@@ -35,6 +35,12 @@ databaseChangeLog:
               - column:
                   name: released_at
                   type: timestamp
+              - column:
+                  name: activated
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
         - addForeignKeyConstraint:
             constraintName: booking_logs_parking_id_place_number_fkey
             baseTableName: booking_logs

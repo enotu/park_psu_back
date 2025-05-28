@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: delete-is-occupied-column
-      author: SofiaPalkina
-      changes:
-        - dropColumn:
-            columnName: is_occupied
-            tableName: places

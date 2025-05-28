@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: update-update-parking-free-trigger-and-function
+      id: create-update-parking-free-trigger
       author: SofiaPalkina
       changes:
         - sql:
@@ -8,9 +8,6 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              DROP TRIGGER IF EXISTS update_parking_free_trigger ON places;
-              DROP FUNCTION IF EXISTS update_parking_free;
-              
               CREATE OR REPLACE FUNCTION update_parking_free()
               RETURNS trigger AS $$
               BEGIN

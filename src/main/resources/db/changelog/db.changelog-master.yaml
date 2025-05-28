@@ -12,28 +12,10 @@ databaseChangeLog:
   - include:
       file: db/changelog/changeset/enable-row-level-security-to-logs.yaml
   - include:
-      file: db/changelog/changeset/create-readonly-user.yaml
-  - include:
-      file: db/changelog/changeset/set-places-table-booking-time-default-value.yaml
-  - include:
-      file: db/changelog/changeset/create-count-free-places-trigger.yaml
-  - include:
-      file: db/changelog/changeset/create-update-booking-time-trigger.yaml
-  - include:
       file: db/changelog/changeset/create-update-parking-average-trigger.yaml
   - include:
-      file: db/changelog/changeset/delete-user-name-column.yaml
+      file: db/changelog/changeset/create-update-parking-free-trigger.yaml
   - include:
       file: db/changelog/changeset/create-release-expired-bookings-function.yaml
   - include:
-      file: db/changelog/changeset/delete-is-occupied-column.yaml
-  - include:
-      file: db/changelog/changeset/delete-booking-time-column.yaml
-  - include:
-      file: db/changelog/changeset/delete-update-booking-time-trigger.yaml
-  - include:
-      file: db/changelog/changeset/update-update-parking-free-trigger-and-function.yaml
-  - include:
-      file: db/changelog/changeset/update-release-expired-bookings-function.yaml
-  - include:
-      file: db/changelog/changeset/make-cron-schedule.yaml
+      file: db/changelog/changeset/create-activate-future-booking-function.yaml
