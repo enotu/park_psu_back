@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: delete-user-name-column
-      author: SofiaPalkina
-      changes:
-        - dropColumn:
-            columnName: user_name
-            tableName: users

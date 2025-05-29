@@ -17,14 +17,17 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: user_id
+                  type: integer
+              - column:
                   name: is_occupied
                   type: boolean
                   defaultValueBoolean: false
               - column:
-                  name: user_id
-                  type: integer
-              - column:
                   name: booking_time
+                  type: timestamp
+              - column:
+                  name: parking_end_time
                   type: timestamp
         - addPrimaryKey:
             columnNames: place_number, parking_id
