@@ -1,13 +1,13 @@
 databaseChangeLog:
   - changeSet:
       id: create-activate-future-booking-function
-      author: SofiaPalkina
+      author: Pavel_Aleksandrov
       changes:
         - sql:
             splitStatements: false
             stripComments: true
             sql: |
-              CREATE FUNCTION public.activate_future_booking(now_param timestamp without time zone) 
+              CREATE FUNCTION activate_future_booking(now_param timestamp without time zone) 
               RETURNS void AS $$
               BEGIN
                 UPDATE booking_logs
@@ -41,3 +41,4 @@ databaseChangeLog:
                   AND bl.released_at > now_param;
               END;
               $$ LANGUAGE plpgsql;
+              ALTER FUNCTION activate_future_booking(timestamp) OWNER TO yumparking;

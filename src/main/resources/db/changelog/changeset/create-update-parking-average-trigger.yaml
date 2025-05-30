@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-update-parking-average-trigger
-      author: SofiaPalkina
+      author: Pavel_Aleksandrov
       changes:
         - sql:
             splitStatements: false
@@ -21,6 +21,8 @@ databaseChangeLog:
                   RETURN NEW;
                 END;
               $$ LANGUAGE plpgsql;
+              
+              ALTER FUNCTION update_parking_average() OWNER TO yumparking;
 
               CREATE TRIGGER update_parking_average_trigger
               AFTER INSERT OR UPDATE OR DELETE ON places
