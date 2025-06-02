@@ -77,4 +77,28 @@ public class BookingService {
         return log;
     }
 
+    @Transactional
+    public void cancelBooking(int parkingId, int placeNumber) {
+        Timestamp cancelTime = Timestamp.valueOf(LocalDateTime.now());
+        BookingLog log = bookingLogRepository.findByPlaceNumberAndParkingIdOrderByBookedAtDesc(placeNumber, parkingId)
+                .stream()
+                .filter(b -> b.getReleasedAt().after(cancelTime) && Boolean.TRUE.equals(b.getActivated()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Активная бронь не найдена"));
+
+        log.setReleasedAt(cancelTime);
+        log.setActivated(false);
+        bookingLogRepository.save(log);
+
+        Place place = placeRepository.findById_PlaceNumberAndId_ParkingId(placeNumber, parkingId)
+                .orElseThrow(() -> new RuntimeException("Место не найдено"));
+        if (place.getParkingEndTime() != null && place.getParkingEndTime().after(cancelTime)) {
+            place.setIsOccupied(false);
+            place.setUserId(null);
+            place.setBookingTime(null);
+            place.setParkingEndTime(null);
+            placeRepository.save(place);
+        }
+    }
+
 }

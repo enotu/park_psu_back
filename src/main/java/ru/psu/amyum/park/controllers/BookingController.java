@@ -73,4 +73,11 @@ public class BookingController {
 
         return ResponseEntity.ok(bookedSpots);
     }
+
+    @PostMapping("/cancelBooking")
+    public ResponseEntity<Void> cancelBooking(@RequestParam Integer parkingId,
+                                              @RequestParam Integer placeId) {
+        bookingService.cancelBooking(parkingId, placeId);
+        return ResponseEntity.ok().build();
+    }
 }
