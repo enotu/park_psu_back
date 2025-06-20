@@ -1,22 +1,14 @@
 package ru.psu.amyum.park.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Setter
+@Getter
 public class CancelSpotRequest {
     private Long spotId;
     private Long parkingId;
-
-    public Long getSpotId() {
-        return spotId;
-    }
-
-    public void setSpotId(Long spotId) {
-        this.spotId = spotId;
-    }
-
-    public Long getParkingId() {
-        return parkingId;
-    }
-
-    public void setParkingId(Long parkingId) {
-        this.parkingId = parkingId;
-    }
+    private LocalDateTime startTime;
 }

@@ -2,11 +2,11 @@ package ru.psu.amyum.park.controllers;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 import ru.psu.amyum.park.dto.BookingRequest;
+import ru.psu.amyum.park.dto.CancelSpotRequest;
 import ru.psu.amyum.park.service.BookingService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,5 +53,19 @@ public class BookingController {
                 parkingTime
         );
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/cancelBooking")
+    public ResponseEntity<String> cancelBooking(
+            @RequestBody CancelSpotRequest request,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        bookingService.cancelBooking(
+                request.getSpotId(),
+                request.getParkingId(),
+                request.getStartTime(),
+                userDetails.getUsername()
+        );
+        return ResponseEntity.ok("Бронирование отменено");
     }
 }

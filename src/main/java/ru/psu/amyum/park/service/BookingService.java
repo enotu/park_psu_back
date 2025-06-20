@@ -7,6 +7,7 @@ import ru.psu.amyum.park.model.Place;
 import ru.psu.amyum.park.repository.BookingLogRepository;
 import ru.psu.amyum.park.repository.PlaceRepository;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Service
 public class BookingService {
@@ -49,5 +50,18 @@ public class BookingService {
         log.setBookedAt(bookedAt);
         log.setReleasedAt(releasedAt);
         return log;
+    }
+
+    public void cancelBooking(Long spotId, Long parkingId, LocalDateTime startTime, String username) {
+        BookingLog log = bookingLogRepository.findBySpotIdAndParkingIdAndStartTimeAndUsername(
+                spotId, parkingId, startTime, username
+        ).orElseThrow(() -> new RuntimeException("Бронирование не найдено"));
+
+        if (log.getReleasedAt() != null) {
+            throw new RuntimeException("Бронирование уже отменено или завершено");
+        }
+
+        log.setReleasedAt(new Timestamp(System.currentTimeMillis()));
+        bookingLogRepository.save(log);
     }
 }
