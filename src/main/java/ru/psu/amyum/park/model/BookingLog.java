@@ -37,5 +37,4 @@ public class BookingLog {
     }
 
     public BookingLog() {}
-
 }
