@@ -30,7 +30,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults()) // импортировать: import static org.springframework.security.config.Customizer.withDefaults;
+                .cors(Customizer.withDefaults())
 
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth

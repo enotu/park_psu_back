@@ -1,12 +1,8 @@
 package ru.psu.amyum.park.controllers;
 
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.psu.amyum.park.dto.BookingRequest;
 import ru.psu.amyum.park.dto.CancelSpotRequest;
@@ -19,6 +15,7 @@ import ru.psu.amyum.park.model.BookingLog;
 import ru.psu.amyum.park.dto.BookedSpot;
 
 import java.time.Instant;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import java.sql.Timestamp;
@@ -81,23 +78,17 @@ public class BookingController {
     }
 
     @PostMapping("/cancelBooking")
-    public ResponseEntity<Void> cancelBooking(@RequestParam Integer parkingId,
-                                              @RequestParam Integer placeId) {
-        bookingService.cancelBooking(parkingId, placeId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> cancelBooking(@RequestBody CancelSpotRequest request) {
+        try {
+            bookingService.cancelBooking(
+                    request.getParkingId(),
+                    request.getSpotId(),
+                    request.getStartTime()
+            );
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Бронь не найдена или уже отменена"));
+        }
     }
-
-    //@PostMapping("/cancelBooking")
-    //public ResponseEntity<String> cancelBooking(
-    //        @RequestBody CancelSpotRequest request,
-    //        @AuthenticationPrincipal UserDetails userDetails
-    //) {
-    //    bookingService.cancelBooking(
-    //            request.getSpotId(),
-    //            request.getParkingId(),
-    //            request.getStartTime(),
-    //            userDetails.getUsername()
-    //    );
-   //     return ResponseEntity.ok("Бронирование отменено");
-    //}
 }

@@ -78,14 +78,22 @@ public class BookingService {
     }
 
     @Transactional
-    public void cancelBooking(int parkingId, int placeNumber) {
-        Timestamp cancelTime = Timestamp.valueOf(LocalDateTime.now());
-        BookingLog log = bookingLogRepository.findByPlaceNumberAndParkingIdOrderByBookedAtDesc(placeNumber, parkingId)
-                .stream()
-                .filter(b -> b.getReleasedAt().after(cancelTime) && Boolean.TRUE.equals(b.getActivated()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Активная бронь не найдена"));
+    public void cancelBooking(int parkingId, int placeNumber, LocalDateTime startTime) {
+        Timestamp startTimestamp = Timestamp.valueOf(startTime);
 
+        List<BookingLog> bookings = bookingLogRepository.findByPlaceNumberAndParkingIdOrderByBookedAtDesc(placeNumber, parkingId);
+
+        if (bookings.isEmpty()) {
+            throw new RuntimeException("Бронирование не найдено для места " + placeNumber + " на парковке " + parkingId);
+        }
+
+        BookingLog log = bookings.stream()
+                .filter(b -> b.getBookedAt().toLocalDateTime().truncatedTo(java.time.temporal.ChronoUnit.SECONDS)
+                        .equals(startTime.truncatedTo(java.time.temporal.ChronoUnit.SECONDS)))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Бронирование не найдено для указанного времени"));
+
+        Timestamp cancelTime = Timestamp.valueOf(LocalDateTime.now());
         log.setReleasedAt(cancelTime);
         log.setActivated(false);
         bookingLogRepository.save(log);
