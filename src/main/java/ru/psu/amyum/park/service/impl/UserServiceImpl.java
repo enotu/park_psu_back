@@ -12,6 +12,7 @@ import ru.psu.amyum.park.mapper.UserMapper;
 import ru.psu.amyum.park.model.User;
 import ru.psu.amyum.park.repository.UserRepository;
 import ru.psu.amyum.park.security.Jwt.JwtService;
+import ru.psu.amyum.park.service.PasswordValidator;
 import ru.psu.amyum.park.service.UserService;
 
 import javax.naming.AuthenticationException;
@@ -38,20 +39,23 @@ public class UserServiceImpl implements UserService {
             User user = findByEmail(jwtService.getEmailFromToken(refreshToken));
             return jwtService.refreshBaseToken(user.getEmail(), refreshToken);
         }
-        throw new AuthenticationException("Invalid refresh token");
+        throw new AuthenticationException("неверный токен обновления");
     }
 
     @Override
     @Transactional
     public UserDto getUserByEmail(String email) {
         return userMapper.toDto(userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found")));
+                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден")));
     }
 
     @Override
     public void register(UserDto userDto) {
+        if (!PasswordValidator.isValid(userDto.getPassword())) {
+            throw new IllegalArgumentException("Пароль должен содержать не менее 8 символов, включая буквы, цифры и специальные символы");
+        }
         if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("User with this email already exists");
+            throw new IllegalArgumentException("Пользователь с таким email уже существует");
         }
         User user = userMapper.toEntity(userDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -66,11 +70,11 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         }
-        throw new AuthenticationException("Invalid email or password");
+        throw new AuthenticationException("Неправильный email или пароль");
     }
 
     private User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден по email: " + email));
     }
 }
