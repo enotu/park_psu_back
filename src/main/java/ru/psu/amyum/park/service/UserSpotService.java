@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.psu.amyum.park.dto.SpotDto;
 import ru.psu.amyum.park.model.BookingLog;
-import ru.psu.amyum.park.model.Parking;
 import ru.psu.amyum.park.repository.BookingLogRepository;
 import ru.psu.amyum.park.repository.ParkingRepository;
 
@@ -23,17 +22,26 @@ public class UserSpotService {
         List<BookingLog> bookings = bookingLogRepository.findByUserId(userId);
         return bookings.stream()
                 .filter(log -> log.getReleasedAt() != null && log.getReleasedAt().toLocalDateTime().isAfter(now))
-                .map(log -> {
-                    SpotDto dto = new SpotDto();
-                    dto.setTitle("Место №" + log.getPlaceNumber());
-                    Parking parking = parkingRepository.findById(log.getParkingId()).orElse(null);
-                    dto.setLocation(parking != null ? parking.getLocation() : "Неизвестно");
-                    dto.setSpotId(log.getPlaceNumber());
-                    dto.setParkingId(log.getParkingId());
-                    dto.setStartTime(log.getBookedAt() != null ? log.getBookedAt().toLocalDateTime() : null);
-                    dto.setEndTime(log.getReleasedAt() != null ? log.getReleasedAt().toLocalDateTime() : null);
-                    return dto;
-                })
+                .map(this::convertToSpotDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<SpotDto> getAllUserSpots(int userId) {
+        List<BookingLog> bookings = bookingLogRepository.findByUserId(userId);
+        return bookings.stream()
+                .map(this::convertToSpotDto)
+                .collect(Collectors.toList());
+    }
+
+    private SpotDto convertToSpotDto(BookingLog log) {
+        SpotDto dto = new SpotDto();
+        dto.setTitle(String.format("Место №%d", log.getPlaceNumber()));
+        parkingRepository.findById(log.getParkingId())
+                .ifPresent(parking -> dto.setLocation(parking.getLocation()));
+        dto.setSpotId(log.getPlaceNumber());
+        dto.setParkingId(log.getParkingId());
+        dto.setStartTime(log.getBookedAt() != null ? log.getBookedAt().toLocalDateTime() : null);
+        dto.setEndTime(log.getReleasedAt() != null ? log.getReleasedAt().toLocalDateTime() : null);
+        return dto;
     }
 }
